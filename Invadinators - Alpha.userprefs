@@ -1,0 +1,15 @@
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\IAPI\Database\DataUtility.cs">
+    <Files>
+      <File FileName="Assets\IAPI\Profile\ProfileManager.cs" Line="7" Column="22" />
+      <File FileName="Assets\IAPI\Database\MainDatabase.cs" Line="7" Column="29" />
+      <File FileName="Assets\IAPI\Game\GameManager.cs" Line="4" Column="25" />
+      <File FileName="Assets\IAPI\Database\DataUtility.cs" Line="40" Column="14" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

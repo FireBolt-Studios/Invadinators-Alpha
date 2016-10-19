@@ -1,0 +1,23 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{D929A7E9-0991-0443-3FC1-4BEEE4C64D8A}") = "Invadinators - Alpha", "Assembly-CSharp.csproj", "{BE8A23D3-23FC-E7CE-CB0F-0AFFCB3A0B18}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BE8A23D3-23FC-E7CE-CB0F-0AFFCB3A0B18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE8A23D3-23FC-E7CE-CB0F-0AFFCB3A0B18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE8A23D3-23FC-E7CE-CB0F-0AFFCB3A0B18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE8A23D3-23FC-E7CE-CB0F-0AFFCB3A0B18}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal
