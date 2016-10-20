@@ -88,7 +88,7 @@ public class PartData {
 	public int Drain;
 
 	public string Projectile;
-	public string- Sprite;
+	public string Sprite;
 	public ColorData Colors;
 	public TransformData Transform;
 
