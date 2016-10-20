@@ -5,6 +5,49 @@ using System.Collections.Generic;
 namespace IAPI.Database {
 	public class DataUtility {
 
+		public static bool LoadSprites (MainDatabase mDB)
+		{
+			Sprite[] sprites = Resources.LoadAll<Sprite>("");
+
+			for (int i = 0; i < sprites.Length; i+=2)
+			{
+				SpriteData newSData = new SpriteData ();
+				newSData.Name = sprites [i].name;
+				newSData.Base = sprites [i];
+				newSData.Detail = sprites [i + 1];
+				mDB.Sprites.Add (newSData);
+			}
+
+			return true;
+		}
+
+		public static PartData GetPartData (string partName,MainDatabase mDB)
+		{
+			foreach (PartType pType in mDB.Parts)
+			{
+				foreach (PartData pData in pType.Parts)
+				{
+					if (pData.Name == partName)
+					{
+						return pData;
+					}
+				}
+			}
+			return null;
+		}
+
+		public static SpriteData GetSpriteData (string spriteName,MainDatabase mDB)
+		{
+			foreach (SpriteData sData in mDB.Sprites)
+			{
+				if (sData.Name == spriteName)
+				{
+					return sData;
+				}
+			}
+			return null;
+		}
+
 	}
 }
 
@@ -45,7 +88,7 @@ public class PartData {
 	public int Drain;
 
 	public string Projectile;
-	public string SpriteName;
+	public string- Sprite;
 	public ColorData Colors;
 	public TransformData Transform;
 
@@ -74,3 +117,20 @@ public class ColorData {
 
 }
 
+
+[System.Serializable]
+public class SpriteData {
+
+	public string Name;
+	public Sprite Base;
+	public Sprite Detail;
+
+}
+
+[System.Serializable]
+public class PartType {
+
+	public string TypeName;
+	public List<PartData> Parts = new List<PartData>();
+
+}
