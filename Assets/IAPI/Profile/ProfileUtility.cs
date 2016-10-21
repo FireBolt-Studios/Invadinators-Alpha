@@ -1,15 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ProfileUtility : MonoBehaviour {
+namespace Profile.ProfileUtility {
+	public class ProfileUtility {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+		public static bool CreateLocalProfile (string profileName, ProfileManager pManager)
+		{
+			ProfileData newProfile = new ProfileData ();
+			newProfile.Name = profileName;
+			newProfile.Level = 1;
+			newProfile.Rank = "Private";
+			newProfile.Credits = 1000;
+			pManager.ActiveProfile = newProfile;
+			return true;
+		}
 	}
 }

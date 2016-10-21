@@ -1,9 +1,69 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace IAPI.Database {
 	public class DataUtility {
+
+		public static T DeepCopy<T>(T other)
+		{
+			using (MemoryStream ms = new MemoryStream())
+			{
+				BinaryFormatter formatter = new BinaryFormatter();
+				formatter.Serialize(ms, other);
+				ms.Position = 0;
+				return (T)formatter.Deserialize(ms);
+			}
+		}
+
+		public static T Load<T>(string filename) where T : class
+		{
+			if (File.Exists(filename))
+			{
+				using (Stream stream = File.OpenRead(filename))
+				{
+					BinaryFormatter formatter = new BinaryFormatter();
+					return formatter.Deserialize(stream) as T;
+				}
+			}
+			return null;
+		}
+
+		public static void Save<T>(string filename, T data) where T : class
+		{
+			using (Stream stream = File.Open(filename, FileMode.OpenOrCreate))
+			{
+				BinaryFormatter formatter = new BinaryFormatter();
+				formatter.Serialize(stream, data);
+			}
+		}
+
+		public static T LoadXML<T>(string filename) where T : class
+		{
+			if (File.Exists(filename))
+			{
+				using (Stream stream = File.OpenRead(filename))
+				{
+					XmlSerializer serial = new XmlSerializer(typeof(T));
+					return serial.Deserialize(stream) as T;
+				}
+			}
+
+			return null;
+		}
+
+		public static void SaveXML<T>(string filename, T data) where T : class
+		{
+			using (Stream stream = File.Open(filename, FileMode.OpenOrCreate))
+			{
+				XmlSerializer serial = new XmlSerializer(typeof (T));
+				serial.Serialize(stream, data);
+			}
+		}
 
 		public static bool LoadSprites (MainDatabase mDB)
 		{
@@ -18,6 +78,31 @@ namespace IAPI.Database {
 				mDB.Sprites.Add (newSData);
 			}
 
+			return true;
+		}
+
+		public static bool AddPart (string partName,string partType,string spriteName,MainDatabase mDB)
+		{
+			PartData newPart = new PartData ();
+			newPart.Name = partName;
+			newPart.Type = partType;
+			newPart.Sprite = spriteName;
+			foreach (PartType pType in mDB.Parts) 
+			{
+				if (pType.TypeName == partType)
+				{
+					pType.Parts.Add (newPart);
+					return true;
+				}
+			}
+			return false;
+		}
+
+		public static bool AddPartType (string typeName,MainDatabase mDB)
+		{
+			PartType pType = new PartType ();
+			pType.TypeName = typeName;
+			mDB.Parts.Add (pType);
 			return true;
 		}
 
@@ -46,6 +131,29 @@ namespace IAPI.Database {
 				}
 			}
 			return null;
+		}
+
+		public static ShipData GetShip (string shipName,ProfileData profileData)
+		{
+			foreach (ShipData ship in profileData.Ships) 
+			{
+				if (ship.Name == shipName) 
+				{
+					return ship;
+				}
+			}
+			return null;
+		}
+
+		public static Vector3[] ConvertTransformData (TransformData tData)
+		{
+			Vector3[] VectorData = new Vector3[2];
+			Vector3 newPos = new Vector3 (tData.PositionX,tData.PositionY,tData.PositionZ);
+			Vector3 newRot = new Vector3 (tData.RotationX,tData.RotationY,tData.RotationZ);
+			VectorData [0] = newPos;
+			VectorData [1] = newRot;
+			return VectorData;
+
 		}
 
 	}

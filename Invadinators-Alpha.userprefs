@@ -1,12 +1,15 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Editor\EditorMaindatabasePropertyDrawer.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\IAPI\Game\GameUtility.cs">
     <Files>
-      <File FileName="Assets\Editor\EditorMaindatabasePropertyDrawer.cs" Line="14" Column="12" />
-      <File FileName="Assets\IAPI\Database\DataUtility.cs" Line="91" Column="16" />
-      <File FileName="Assets\Editor\EditorDatabaseMenuItems.cs" Line="14" Column="1" />
-      <File FileName="Assets\IAPI\Database\MainDatabase.cs" Line="1" Column="1" />
-      <File FileName="Assets\Editor\EditorDatabase.cs" Line="1" Column="1" />
+      <File FileName="Assets\IAPI\Database\DataUtility.cs" Line="158" Column="1" />
+      <File FileName="Assets\Editor\EditorDatabaseMenuItems.cs" Line="1" Column="1" />
+      <File FileName="Assets\IAPI\Database\MainDatabase.cs" Line="13" Column="41" />
+      <File FileName="Assets\IAPI\Profile\ProfileManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\IAPI\Game\GameManager.cs" Line="12" Column="2" />
+      <File FileName="Assets\IAPI\Game\GameUtility.cs" Line="6" Column="1" />
+      <File FileName="Assets\IAPI\Ship\Parts\Part.cs" Line="6" Column="27" />
+      <File FileName="Assets\IAPI\Profile\ProfileUtility.cs" Line="14" Column="40" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
