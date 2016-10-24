@@ -18,21 +18,15 @@ public class MainDatabase : MonoBehaviour {
 			GameObject newShip = new GameObject (shipName);
 			foreach (PartData pData in sData.Parts)
 			{
-				GameObject newPart = new GameObject 
-				(
-					pData.Name,
-					typeof(SpriteRenderer),
-					typeof(BoxCollider2D),
-					typeof(Part)
-				);
+				GameObject newPart = IAPI.Database.DataUtility.MakePart(pData,this);
+				GameObject newDetail = new GameObject("Detail",typeof(SpriteRenderer));
+				newDetail.transform.parent = newPart.transform;
+
+				SpriteData spriteData = DataUtility.GetSpriteData(pData.Sprite,GManager.mDB);
+				newPart.GetComponent<SpriteRenderer>().sprite = spriteData.Base;
+				newDetail.GetComponent<SpriteRenderer>().sprite = spriteData.Detail;
+
 				newPart.transform.parent = newShip.transform;
-				Vector3[] VectorData = DataUtility.ConvertTransformData (pData.Transform);
-				newPart.transform.localPosition = VectorData [0];
-				newPart.transform.localEulerAngles = VectorData [1];
-				SpriteData spriteData = DataUtility.GetSpriteData (pData.Sprite,this);
-				newPart.GetComponent<SpriteRenderer> ().sprite = spriteData.Base;
-				newPart.GetComponent<SpriteRenderer> ().sprite = spriteData.Detail;
-				newPart.GetComponent<Part> ().PartData = DataUtility.DeepCopy (DataUtility.GetPartData(pData.Name,this));
 			}
 			IAPI.Game.GameUtility.CenterParts (newShip.transform);
 			return true;

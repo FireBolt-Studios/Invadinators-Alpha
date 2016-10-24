@@ -153,9 +153,63 @@ namespace IAPI.Database {
 			VectorData [0] = newPos;
 			VectorData [1] = newRot;
 			return VectorData;
-
 		}
 
+		public static Color ConvertColorData (ColorData cData)
+		{
+			Color newColor = new Color(cData.Red,cData.Green,cData.Blue,cData.Alpha);
+			return newColor;
+		}
+
+		public static GameObject MakePart (PartData partData, MainDatabase mDB)
+		{
+			GameObject newPart = new GameObject 
+			(
+				partData.Name,
+				typeof(SpriteRenderer),
+				typeof(BoxCollider2D),
+				typeof(Part)
+			);
+			Vector3[] VectorData = DataUtility.ConvertTransformData (partData.Transform);
+			newPart.transform.localPosition = VectorData [0];
+			newPart.transform.localEulerAngles = VectorData [1];
+			SpriteData spriteData = DataUtility.GetSpriteData (partData.Sprite,mDB);
+			newPart.GetComponent<SpriteRenderer> ().sprite = spriteData.Base;
+			newPart.GetComponent<SpriteRenderer> ().color = ConvertColorData(partData.Colors[0]);
+			newPart.transform.GetChild(0).GetComponent<SpriteRenderer> ().sprite = spriteData.Detail;
+			newPart.transform.GetChild(0).GetComponent<SpriteRenderer> ().color = ConvertColorData(partData.Colors[1]);
+			newPart.GetComponent<Part> ().PartData = DataUtility.DeepCopy (DataUtility.GetPartData(partData.Name,mDB));
+			return newPart;
+		}
+
+		public static bool CheckDirectories ()
+		{
+			if (!Directory.Exists(Application.persistentDataPath+"/Invadinators/Profile/"))
+			{
+				Directory.CreateDirectory(Application.persistentDataPath+"/Invadinators/Profile/");
+				return true;
+			}
+			return true;
+		}
+
+		public static bool CheckForProfile ()
+		{
+			if (!File.Exists(Application.persistentDataPath+"/Invadinators/Profile/Profile.bin"))
+			{
+				return false;
+			}
+			return true;
+		}
+
+		public static ProfileData CreateLocalProfile (string profileName)
+		{
+			ProfileData newProfileData = new ProfileData();
+			newProfileData.Name = profileName;
+			newProfileData.Credits = 1000;
+			newProfileData.Level = 1;
+			newProfileData.Rank = "Private";
+			return newProfileData;
+		}
 	}
 }
 
@@ -197,7 +251,7 @@ public class PartData {
 
 	public string Projectile;
 	public string Sprite;
-	public ColorData Colors;
+	public ColorData[] Colors = new ColorData[2];
 	public TransformData Transform;
 
 }

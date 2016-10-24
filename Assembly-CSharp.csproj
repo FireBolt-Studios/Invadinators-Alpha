@@ -45,6 +45,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\IAPI\Construction\ConstructionManager.cs" />
+     <Compile Include="Assets\IAPI\Construction\ConstructionPlacer.cs" />
+     <Compile Include="Assets\IAPI\Construction\ConstructionUtility.cs" />
      <Compile Include="Assets\IAPI\Database\DataUtility.cs" />
      <Compile Include="Assets\IAPI\Database\MainDatabase.cs" />
      <Compile Include="Assets\IAPI\Game\GameManager.cs" />
@@ -52,6 +55,8 @@
      <Compile Include="Assets\IAPI\Profile\ProfileManager.cs" />
      <Compile Include="Assets\IAPI\Profile\ProfileUtility.cs" />
      <Compile Include="Assets\IAPI\Ship\Parts\Part.cs" />
+     <Compile Include="Assets\IAPI\User Interface\UIPartButton.cs" />
+     <Compile Include="Assets\IAPI\User Interface\UIUtility.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
