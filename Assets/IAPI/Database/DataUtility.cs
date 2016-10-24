@@ -106,6 +106,18 @@ namespace IAPI.Database {
 			return true;
 		}
 
+		public static PartType GetPartType (string typeName,ProfileData profileData)
+		{
+			foreach (PartType pType in profileData.Cargo)
+			{
+				if (pType.TypeName == typeName)
+				{
+					return pType;
+				}
+			}
+			return null;
+		}
+
 		public static PartData GetPartData (string partName,MainDatabase mDB)
 		{
 			foreach (PartType pType in mDB.Parts)
@@ -155,6 +167,16 @@ namespace IAPI.Database {
 			return VectorData;
 		}
 
+		public static ColorData ConvertColor (Color color)
+		{
+			ColorData newCData = new ColorData();
+			newCData.Red = color.r;
+			newCData.Green = color.g;
+			newCData.Blue = color.b;
+			newCData.Alpha = 1;
+			return newCData;
+		}
+
 		public static Color ConvertColorData (ColorData cData)
 		{
 			Color newColor = new Color(cData.Red,cData.Green,cData.Blue,cData.Alpha);
@@ -170,6 +192,9 @@ namespace IAPI.Database {
 				typeof(BoxCollider2D),
 				typeof(Part)
 			);
+			GameObject newDetail = new GameObject("Detail",typeof(SpriteRenderer));
+			newDetail.transform.parent = newPart.transform;
+			newDetail.GetComponent<SpriteRenderer>().sortingOrder = 2;
 			Vector3[] VectorData = DataUtility.ConvertTransformData (partData.Transform);
 			newPart.transform.localPosition = VectorData [0];
 			newPart.transform.localEulerAngles = VectorData [1];
@@ -201,13 +226,19 @@ namespace IAPI.Database {
 			return true;
 		}
 
-		public static ProfileData CreateLocalProfile (string profileName)
+		public static ProfileData CreateLocalProfile (string profileName,MainDatabase mDB)
 		{
 			ProfileData newProfileData = new ProfileData();
 			newProfileData.Name = profileName;
 			newProfileData.Credits = 1000;
 			newProfileData.Level = 1;
 			newProfileData.Rank = "Private";
+			foreach (PartType partType in mDB.Parts)
+			{
+				PartType pType = new PartType();
+				pType.TypeName = partType.TypeName;
+				newProfileData.Cargo.Add(pType);
+			}
 			return newProfileData;
 		}
 	}
@@ -221,7 +252,7 @@ public class ProfileData {
 	public string Rank;
 	public int Credits;
 	public List<ShipData> Ships = new List<ShipData>();
-	public List<PartData> Cargo = new List<PartData>();
+	public List<PartType> Cargo = new List<PartType>();
 
 }
 
@@ -253,6 +284,7 @@ public class PartData {
 	public string Sprite;
 	public ColorData[] Colors = new ColorData[2];
 	public TransformData Transform;
+	public int Quantity;
 
 }
 

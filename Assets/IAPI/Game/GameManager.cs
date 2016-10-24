@@ -10,6 +10,20 @@ public class GameManager : MonoBehaviour {
 	void Awake ()
 	{
 		DontDestroyOnLoad (this);
+		FillCargo();
+	}
+
+	public void FillCargo ()
+	{
+		for (int i = 0; i < PManager.ActiveProfile.Cargo.Count; i++)
+		{
+			foreach (PartData pData in mDB.Parts[i].Parts)
+			{
+				PartData copiedPartData = IAPI.Database.DataUtility.DeepCopy(pData);
+				copiedPartData.Quantity = 10;
+				PManager.ActiveProfile.Cargo[i].Parts.Add(copiedPartData);
+			}
+		}
 	}
 
 	void Initialization ()
