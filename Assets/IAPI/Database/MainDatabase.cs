@@ -9,6 +9,8 @@ public class MainDatabase : MonoBehaviour {
 
 	public List<PartType> Parts = new List<PartType>();
 	public List<SpriteData> Sprites = new List<SpriteData>();
+	public Tier[] tiers;
+	public Rarity[] rarities;
 
 	public bool SpawnShip (string shipName)
 	{

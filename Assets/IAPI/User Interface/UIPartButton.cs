@@ -30,4 +30,41 @@ public class UIPartButton : MonoBehaviour {
 		CManager.SpawnPlacer(partData);
 	}
 
+	public void OnExit ()
+	{
+		CManager.PartInfo.SetActive(false);
+	}
+
+	public void OnOver ()
+	{
+		CManager.PartInfo.SetActive(true);
+		CManager.PartInfo.transform.position = Input.mousePosition;
+		CManager.PartInfo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = partData.Name;
+		CManager.PartInfo.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = CManager.mDB.rarities[partData.Rarity].color;
+		if (partData.Name.Contains("Cockpit"))
+		{
+
+		}
+		else if (partData.Name.Contains("Reactor"))
+		{
+
+		}
+		else if (partData.Name.Contains("Shield"))
+		{
+
+		}
+		else if (partData.Name.Contains("Thruster"))
+		{
+
+		}
+		else if (partData.Name.Contains("Weapon"))
+		{
+
+		}
+		else
+		{
+
+		}
+	}
+
 }

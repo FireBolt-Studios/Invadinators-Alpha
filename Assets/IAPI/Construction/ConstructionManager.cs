@@ -20,6 +20,8 @@ public class ConstructionManager : MonoBehaviour {
 	public Slider[] ColorSliders;
 	public Text[] ColorValues;
 
+	public GameObject PartInfo;
+
 	public void SetColor ()
 	{
 		BaseColor.color = new Color(ColorSliders[0].value/255,ColorSliders[1].value/255,ColorSliders[2].value/255,1);

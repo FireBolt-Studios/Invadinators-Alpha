@@ -16,4 +16,13 @@ public class EditorDatabaseMenuItems : MonoBehaviour {
 	{
 		GameObject.FindObjectOfType<ProfileManager>().ActiveProfile = IAPI.Database.DataUtility.CreateLocalProfile("Cypher",GameObject.FindObjectOfType<MainDatabase>());
 	}
+
+	[MenuItem ("Invadinators/Database/Debug Part Generatrion")]
+	static void DebugPart () 
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			IAPI.Database.GenerateUtility.GeneratePart("Armor",1,i,2,GameObject.FindObjectOfType<MainDatabase>());
+		}
+	}
 }

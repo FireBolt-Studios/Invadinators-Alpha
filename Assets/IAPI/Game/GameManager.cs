@@ -15,13 +15,17 @@ public class GameManager : MonoBehaviour {
 
 	public void FillCargo ()
 	{
-		for (int i = 0; i < PManager.ActiveProfile.Cargo.Count; i++)
+		foreach (PartType pType in PManager.ActiveProfile.Cargo)
 		{
-			foreach (PartData pData in mDB.Parts[i].Parts)
+			for (int t = 0; t <= 4; t++)
 			{
-				PartData copiedPartData = IAPI.Database.DataUtility.DeepCopy(pData);
-				copiedPartData.Quantity = 10;
-				PManager.ActiveProfile.Cargo[i].Parts.Add(copiedPartData);
+				for (int r = 0; r <= 4; r++)
+				{
+					for (int s = 0; s <= 1; s++)
+					{
+						pType.Parts.Add(IAPI.Database.GenerateUtility.GeneratePart(pType.TypeName,r,t,s,mDB));
+					}
+				}
 			}
 		}
 	}

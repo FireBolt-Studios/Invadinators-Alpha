@@ -9,6 +9,54 @@ using System.Xml.Serialization;
 namespace IAPI.Database {
 	public class DataUtility {
 
+		public static SpriteData GetRandomSpriteData (string type,int size,MainDatabase mDB)
+		{
+			string textSize = "";
+			switch(size)
+			{
+			case 0:
+				textSize = "Small";
+				break;
+			case 1:
+				textSize = "Large";
+				break;
+			}
+
+			List<SpriteData> sData = new List<SpriteData>();
+
+			foreach (SpriteData spData in mDB.Sprites)
+			{
+				if (spData.Name.Contains(type))
+				{
+					if (spData.Name.Contains(textSize))
+					{
+						sData.Add(spData);
+					}
+				}
+			}
+
+			if (sData.Count == 0)
+			{
+				foreach (SpriteData spData in mDB.Sprites)
+				{
+					if (!spData.Name.Contains("Reactor") 
+						&& !spData.Name.Contains("Shield") 
+						&& !spData.Name.Contains("Weapon") 
+						&& !spData.Name.Contains("Thruster") 
+						&& !spData.Name.Contains("Cockpit"))
+					{
+						if (spData.Name.Contains(textSize))
+						{
+							sData.Add(spData);
+						}
+					}
+				}
+			}
+
+			SpriteData randomSData = sData[UnityEngine.Random.Range(0,sData.Count-1)];
+			return randomSData;
+		}
+
 		public static T DeepCopy<T>(T other)
 		{
 			using (MemoryStream ms = new MemoryStream())
@@ -279,6 +327,9 @@ public class PartData {
 	public int Damage;
 	public float FireRate;
 	public int Drain;
+
+	public int Tier;
+	public int Rarity;
 
 	public string Projectile;
 	public string Sprite;

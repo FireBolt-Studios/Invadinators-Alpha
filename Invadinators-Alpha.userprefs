@@ -1,17 +1,20 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\IAPI\User Interface\UIPartButton.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\IAPI\User Interface\UIPartCard.cs">
     <Files>
-      <File FileName="Assets\IAPI\Database\MainDatabase.cs" Line="25" Column="80" />
+      <File FileName="Assets\Editor\EditorDatabaseMenuItems.cs" Line="1" Column="1" />
+      <File FileName="Assets\IAPI\Database\GenerateUtility.cs" Line="14" Column="28" />
+      <File FileName="Assets\IAPI\Database\DataUtility.cs" Line="332" Column="20" />
+      <File FileName="Assets\IAPI\Database\MainDatabase.cs" Line="1" Column="1" />
       <File FileName="Assets\IAPI\Profile\ProfileManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\IAPI\Game\GameManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\IAPI\Game\GameManager.cs" Line="26" Column="91" />
       <File FileName="Assets\IAPI\Game\GameUtility.cs" Line="1" Column="1" />
       <File FileName="Assets\IAPI\Ship\Parts\Part.cs" Line="1" Column="1" />
       <File FileName="Assets\IAPI\Profile\ProfileUtility.cs" Line="1" Column="1" />
-      <File FileName="Assets\IAPI\Construction\ConstructionManager.cs" Line="29" Column="1" />
-      <File FileName="Assets\IAPI\Construction\ConstructionPlacer.cs" Line="12" Column="3" />
-      <File FileName="Assets\IAPI\Database\DataUtility.cs" Line="178" Column="33" />
-      <File FileName="Assets\IAPI\User Interface\UIPartButton.cs" Line="12" Column="74" />
+      <File FileName="Assets\IAPI\Construction\ConstructionManager.cs" Line="23" Column="29" />
+      <File FileName="Assets\IAPI\Construction\ConstructionPlacer.cs" Line="1" Column="1" />
+      <File FileName="Assets\IAPI\User Interface\UIPartButton.cs" Line="41" Column="62" />
+      <File FileName="Assets\IAPI\User Interface\UIPartCard.cs" Line="47" Column="16" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
