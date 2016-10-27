@@ -12,6 +12,15 @@ namespace IAPI.Database {
 			Rarity cRarity = mDB.rarities[rarity];
 			newPart.Tier = tier;
 			newPart.Rarity = rarity;
+			switch(size)
+			{
+			case 0:
+				newPart.size = "Small";
+				break;
+			case 1:
+				newPart.size = "Large";
+				break;
+			}
 
 			tier += 1;
 			rarity += 1;
@@ -27,6 +36,23 @@ namespace IAPI.Database {
 				newPart.Sprite = DataUtility.GetRandomSpriteData("Armor",size,mDB).Name;
 				newPart.MaxDurability = Random.Range(minRange,maxRange)*size;
 				newPart.Worth = (((tier)*10)+((rarity)*10))*(newPart.MaxDurability/2)/10;
+
+				if (tier == 1)
+				{
+					int roundDurability = newPart.MaxDurability/10;
+					newPart.MaxDurability = roundDurability*10;
+					int roundWorth = newPart.Worth/10;
+					newPart.Worth = roundWorth*10;
+				}
+				else
+				{
+					int roundDurability = newPart.MaxDurability/100;
+					newPart.MaxDurability = roundDurability*100;
+					int roundWorth = newPart.Worth/100;
+					newPart.Worth = roundWorth*100;
+				}
+
+				newPart.Type = "Armor";
 				break;
 			case "Reactors":
 				newPart.Name = cRarity.RarityNames[Random.Range(0,3)] + " Reactor " + "MK" + tier;
@@ -40,6 +66,7 @@ namespace IAPI.Database {
 					rdMod = 1;
 				}
 				newPart.Worth = (((tier)*10)+((rarity)*10))*((newPart.MaxDurability/2)+(newPart.MaxCapacity/4))/rdMod;
+				newPart.Type = "Reactor";
 				break;
 			case "Shields":
 				newPart.Name = cRarity.RarityNames[Random.Range(0,3)] + " Shield " + "MK" + tier;
@@ -54,12 +81,14 @@ namespace IAPI.Database {
 					sdMod = 1;
 				}
 				newPart.Worth = ((((tier)*10)+((rarity)*10))*((newPart.MaxDurability/2)+(newPart.MaxCapacity/4))/sdMod)+(newPart.Drain*10);
+				newPart.Type = "Shield";
 				break;
 			case "Cockpits":
 				newPart.Name = cRarity.RarityNames[Random.Range(0,3)] + " Cockpit " + "MK" + tier;
 				newPart.Sprite = DataUtility.GetRandomSpriteData("Cockpit",size,mDB).Name;
 				newPart.MaxDurability = Mathf.RoundToInt((Random.Range(minRange,maxRange)*size)/1.2f);
 				newPart.Worth = (((tier)*10)+((rarity)*10))*(newPart.MaxDurability/2)/8;
+				newPart.Type = "Cockpit";
 				break;
 			case "Thrusters":
 				newPart.Name = cRarity.RarityNames[Random.Range(0,3)] + " Thruster " + "MK" + tier;
@@ -73,6 +102,7 @@ namespace IAPI.Database {
 					tdMod = 1;
 				}
 				newPart.Worth = ((((tier)*10)+((rarity)*10))*((newPart.MaxDurability/2)+(newPart.MaxCapacity/4))/tdMod);
+				newPart.Type = "Thruster";
 				break;
 			case "Weapons":
 				newPart.Name = cRarity.RarityNames[Random.Range(0,3)] + " Weapon " + "MK" + tier;
@@ -87,6 +117,7 @@ namespace IAPI.Database {
 					wdMod = 1;
 				}
 				newPart.Worth = ((((tier)*10)+((rarity)*10))*((newPart.MaxDurability/2)+(newPart.Damage))/wdMod);
+				newPart.Type = "Weapon";
 				break;
 			}
 				

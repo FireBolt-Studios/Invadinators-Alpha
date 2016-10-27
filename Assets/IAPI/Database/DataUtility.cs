@@ -330,6 +330,7 @@ public class PartData {
 
 	public int Tier;
 	public int Rarity;
+	public string size;
 
 	public string Projectile;
 	public string Sprite;
