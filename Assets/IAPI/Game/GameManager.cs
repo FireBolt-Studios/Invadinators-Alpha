@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
@@ -10,20 +11,25 @@ public class GameManager : MonoBehaviour {
 	void Awake ()
 	{
 		DontDestroyOnLoad (this);
-		//FillCargo();
+		Initialization();
 	}
+		
 
 	public void FillCargo ()
 	{
 		foreach (PartType pType in PManager.ActiveProfile.Cargo)
 		{
-			for (int t = 0; t <= 4; t++)
+			for (int t = 0; t <= 1; t++)
 			{
-				for (int r = 0; r <= 4; r++)
+				for (int r = 0; r <= 2; r++)
 				{
-					for (int s = 0; s <= 1; s++)
+					for (int s = 1; s <= 2; s++)
 					{
-						pType.Parts.Add(IAPI.Database.GenerateUtility.GeneratePart(pType.TypeName,r,t,s,mDB));
+						PartData newPartData = IAPI.Database.GenerateUtility.GeneratePart(pType.TypeName,r,t,s,mDB);
+						if (newPartData != null)
+						{
+							pType.Parts.Add(newPartData);
+						}
 					}
 				}
 			}
@@ -36,11 +42,15 @@ public class GameManager : MonoBehaviour {
 		{
 			if (IAPI.Database.DataUtility.CheckForProfile())
 			{
-				PManager.ActiveProfile = IAPI.Database.DataUtility.Load<ProfileData>(Application.persistentDataPath+"/Invadinators/Profile/Profile.bin");
+				print("Profile Found");
+				PManager.ActiveProfile = IAPI.Database.DataUtility.Load<ProfileData>(Application.persistentDataPath+"/Profiles/Profile.pro");
+				//SceneManager.LoadScene("Test");
 			}
 			else
 			{
-				IAPI.Database.DataUtility.Save(Application.persistentDataPath+"/Invadinators/Profile/Profile.bin",PManager.ActiveProfile);
+				PManager.ActiveProfile = IAPI.Database.DataUtility.CreateLocalProfile("Cypher",mDB);
+				FillCargo();
+				IAPI.Database.DataUtility.Save(Application.persistentDataPath+"/Profiles/Profile.pro",PManager.ActiveProfile);
 			}
 		}
 	}

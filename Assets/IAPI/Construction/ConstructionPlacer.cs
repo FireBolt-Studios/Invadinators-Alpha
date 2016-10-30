@@ -13,7 +13,7 @@ public class ConstructionPlacer : MonoBehaviour {
 	void CheckCollisions ()
 	{
 		BoxCollider2D col = gameObject.GetComponent<BoxCollider2D>();
-		Collider2D[] overlap = Physics2D.OverlapAreaAll(col.bounds.min,col.bounds.max,Physics.DefaultRaycastLayers,0,10);
+		Collider2D[] overlap = Physics2D.OverlapAreaAll(col.bounds.min,col.bounds.max,Physics.DefaultRaycastLayers,0,5);
 
 		if (overlap.Length > 1)
 		{
@@ -33,33 +33,25 @@ public class ConstructionPlacer : MonoBehaviour {
 	{
 		PartType partType = DataUtility.GetPartType(partData.Type+"s",CManager.GManager.PManager.ActiveProfile);
 
-		if (partData.Quantity > 1)
+		if (partData.Quantity > 0)
 		{
-			TransformData tData = new TransformData();
+			CManager.PlacePart(partData,transform);
 
-			tData.PositionX = transform.position.x;
-			tData.PositionY = transform.position.y;
-			tData.PositionZ = transform.position.z;
-
-			tData.RotationX = transform.eulerAngles.x;
-			tData.RotationY = transform.eulerAngles.y;
-			tData.RotationZ = transform.eulerAngles.z;
-
-			partData.Transform = tData;
-
-			GameObject newPart = DataUtility.MakePart(partData,mDB);
-			newPart.transform.localScale = transform.localScale;
-			partData.Quantity -= 1;
-			CManager.DisplayParts(partType);
+			if (partData.Quantity > 1)
+			{
+				partData.Quantity -= 1;
+			}
+			else
+			{
+				int typeIndex = CManager.GManager.PManager.ActiveProfile.Cargo.IndexOf(partType);
+				CManager.GManager.PManager.ActiveProfile.Cargo[typeIndex].Parts.Remove(partData);
+				CManager.DisplayParts(partType);
+				Destroy(gameObject);
+			}
 		}
-		else
-		{
-			DataUtility.MakePart(partData,mDB);
-			int typeIndex = CManager.GManager.PManager.ActiveProfile.Cargo.IndexOf(partType);
-			CManager.GManager.PManager.ActiveProfile.Cargo[typeIndex].Parts.Remove(partData);
-			CManager.DisplayParts(DataUtility.GetPartType(partData.Type+"s",CManager.GManager.PManager.ActiveProfile));
-			Destroy(gameObject);
-		}
+
+
+		CManager.DisplayParts(partType);
 	}
 
 	void Update ()
@@ -70,11 +62,11 @@ public class ConstructionPlacer : MonoBehaviour {
 
 			if (partData.Sprite.Contains("Large"))
 			{
-				transform.position = CManager.CurrentTile.position-new Vector3(0.25f,0.25f,10);
+				transform.position = CManager.CurrentTile.position-new Vector3(0.25f,0.25f,5);
 			}
 			else
 			{ 
-				transform.position = CManager.CurrentTile.position-new Vector3(0,0,10);
+				transform.position = CManager.CurrentTile.position-new Vector3(0,0,5);
 			}
 
 			if (Input.GetMouseButtonDown(1))

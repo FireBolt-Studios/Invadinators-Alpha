@@ -9,15 +9,28 @@ using System.Xml.Serialization;
 namespace IAPI.Database {
 	public class DataUtility {
 
+		public static GameObject GetProjectile (string projectileName,MainDatabase mDB)
+		{
+			foreach (GameObject projectile in mDB.Projectiles)
+			{
+				if (projectileName == projectile.name)
+				{
+					return projectile;
+				}
+			}
+			return null;
+		}
+
 		public static SpriteData GetRandomSpriteData (string type,int size,MainDatabase mDB)
 		{
 			string textSize = "";
+			Debug.Log(size);
 			switch(size)
 			{
-			case 0:
+			case 1:
 				textSize = "Small";
 				break;
-			case 1:
+			case 2:
 				textSize = "Large";
 				break;
 			}
@@ -129,31 +142,6 @@ namespace IAPI.Database {
 			return true;
 		}
 
-		public static bool AddPart (string partName,string partType,string spriteName,MainDatabase mDB)
-		{
-			PartData newPart = new PartData ();
-			newPart.Name = partName;
-			newPart.Type = partType;
-			newPart.Sprite = spriteName;
-			foreach (PartType pType in mDB.Parts) 
-			{
-				if (pType.TypeName == partType)
-				{
-					pType.Parts.Add (newPart);
-					return true;
-				}
-			}
-			return false;
-		}
-
-		public static bool AddPartType (string typeName,MainDatabase mDB)
-		{
-			PartType pType = new PartType ();
-			pType.TypeName = typeName;
-			mDB.Parts.Add (pType);
-			return true;
-		}
-
 		public static PartType GetPartType (string typeName,ProfileData profileData)
 		{
 			foreach (PartType pType in profileData.Cargo)
@@ -168,7 +156,7 @@ namespace IAPI.Database {
 
 		public static PartData GetPartData (string partName,MainDatabase mDB)
 		{
-			foreach (PartType pType in mDB.Parts)
+			foreach (PartType pType in mDB.GManager.PManager.ActiveProfile.Cargo)
 			{
 				foreach (PartData pData in pType.Parts)
 				{
@@ -205,6 +193,18 @@ namespace IAPI.Database {
 			return null;
 		}
 
+		public static TransformData ConvertTransform (Vector3 position,Vector3 euler)
+		{
+			TransformData tData = new TransformData();
+			tData.PositionX = position.x;
+			tData.PositionY = position.y;
+			tData.PositionZ = position.z;
+			tData.RotationX = euler.x;
+			tData.RotationY = euler.y;
+			tData.RotationZ = euler.z;
+			return tData;
+		}
+
 		public static Vector3[] ConvertTransformData (TransformData tData)
 		{
 			Vector3[] VectorData = new Vector3[2];
@@ -231,35 +231,11 @@ namespace IAPI.Database {
 			return newColor;
 		}
 
-		public static GameObject MakePart (PartData partData, MainDatabase mDB)
-		{
-			GameObject newPart = new GameObject 
-			(
-				partData.Name,
-				typeof(SpriteRenderer),
-				typeof(BoxCollider2D),
-				typeof(Part)
-			);
-			GameObject newDetail = new GameObject("Detail",typeof(SpriteRenderer));
-			newDetail.transform.parent = newPart.transform;
-			newDetail.GetComponent<SpriteRenderer>().sortingOrder = 2;
-			Vector3[] VectorData = DataUtility.ConvertTransformData (partData.Transform);
-			newPart.transform.localPosition = VectorData [0];
-			newPart.transform.localEulerAngles = VectorData [1];
-			SpriteData spriteData = DataUtility.GetSpriteData (partData.Sprite,mDB);
-			newPart.GetComponent<SpriteRenderer> ().sprite = spriteData.Base;
-			newPart.GetComponent<SpriteRenderer> ().color = ConvertColorData(partData.Colors[0]);
-			newPart.transform.GetChild(0).GetComponent<SpriteRenderer> ().sprite = spriteData.Detail;
-			newPart.transform.GetChild(0).GetComponent<SpriteRenderer> ().color = ConvertColorData(partData.Colors[1]);
-			newPart.GetComponent<Part> ().PartData = DataUtility.DeepCopy (DataUtility.GetPartData(partData.Name,mDB));
-			return newPart;
-		}
-
 		public static bool CheckDirectories ()
 		{
-			if (!Directory.Exists(Application.persistentDataPath+"/Invadinators/Profile/"))
+			if (!Directory.Exists(Application.persistentDataPath+"/Profiles/"))
 			{
-				Directory.CreateDirectory(Application.persistentDataPath+"/Invadinators/Profile/");
+				Directory.CreateDirectory(Application.persistentDataPath+"/Profiles/");
 				return true;
 			}
 			return true;
@@ -267,7 +243,7 @@ namespace IAPI.Database {
 
 		public static bool CheckForProfile ()
 		{
-			if (!File.Exists(Application.persistentDataPath+"/Invadinators/Profile/Profile.bin"))
+			if (!File.Exists(Application.persistentDataPath+"/Profiles/Profile.pro"))
 			{
 				return false;
 			}
@@ -281,13 +257,50 @@ namespace IAPI.Database {
 			newProfileData.Credits = 1000;
 			newProfileData.Level = 1;
 			newProfileData.Rank = "Private";
-			foreach (PartType partType in mDB.Parts)
+			foreach (string partType in mDB.PartTypes)
 			{
 				PartType pType = new PartType();
-				pType.TypeName = partType.TypeName;
+				pType.TypeName = partType+"s";
 				newProfileData.Cargo.Add(pType);
 			}
 			return newProfileData;
+		}
+
+		public static GameObject SpawnPart (PartData partData,MainDatabase mDB,Transform ship)
+		{
+			// Create Gameobjects
+			GameObject newPart = new GameObject(partData.Name,typeof(SpriteRenderer),typeof(BoxCollider2D),typeof(Part));
+			GameObject newDetail = new GameObject("Detail",typeof(SpriteRenderer));
+
+			// Setup Transforms
+			newDetail.transform.parent = newPart.transform;
+			newPart.transform.parent = ship;
+			Vector3[] vectorData = ConvertTransformData(partData.Transform);
+			newPart.transform.localPosition = vectorData[0];
+			newPart.transform.localEulerAngles = vectorData[1];
+			if (partData.size == "Small")
+			{
+				newPart.transform.localScale = new Vector3(0.5f,0.5f,0.5f);
+			}
+			else
+			{
+				newPart.transform.localScale = new Vector3(1,1,1);
+			}
+
+			//Setup Sprite Renderers
+			SpriteRenderer Base = newPart.GetComponent<SpriteRenderer>();
+			SpriteRenderer Detail = newDetail.GetComponent<SpriteRenderer>();
+			Base.sprite = GetSpriteData(partData.Sprite,mDB).Base;
+			Base.color = ConvertColorData(partData.Colors[0]);
+			Base.flipX = partData.FlipX;
+			Detail.sprite = GetSpriteData(partData.Sprite,mDB).Detail;
+			Detail.color = ConvertColorData(partData.Colors[1]);
+			Detail.flipX = partData.FlipX;
+			Detail.sortingOrder = 1;
+
+			//Setup Part Data
+			newPart.GetComponent<Part>().PartData = partData;
+			return newPart;
 		}
 	}
 }
@@ -299,8 +312,28 @@ public class ProfileData {
 	public int Level;
 	public string Rank;
 	public int Credits;
+	public int LP;
+	public int XP;
 	public List<ShipData> Ships = new List<ShipData>();
 	public List<PartType> Cargo = new List<PartType>();
+	public List<PartData> partTest = new List<PartData>();
+
+}
+
+[System.Serializable]
+public class Learning {
+
+	public StatModifier[] StatModifiers;
+
+}
+
+[System.Serializable]
+public class StatModifier {
+
+	public string StatName;
+	public int CurrentPoints;
+	public float ModPerPoint;
+	public float TotalMod;
 
 }
 
@@ -320,7 +353,9 @@ public class PartData {
 	public int Worth;
 	public int Weight;
 	public int MaxDurability;
+	public int CurrentDurability;
 	public int MaxCapacity;
+	public int Charge;
 	public float RechargeRate;
 	public int Thrust;
 	public int Torque;
@@ -336,6 +371,7 @@ public class PartData {
 	public string Sprite;
 	public ColorData[] Colors = new ColorData[2];
 	public TransformData Transform;
+	public bool FlipX;
 	public int Quantity;
 
 }
@@ -378,5 +414,26 @@ public class PartType {
 
 	public string TypeName;
 	public List<PartData> Parts = new List<PartData>();
+
+}
+
+[System.Serializable]
+public class Progression {
+
+	public LevelInfo[] levelInfo;
+
+	public float TotalXP;
+	public float TotalLearning;
+	public int TotalCredit;
+
+}
+
+[System.Serializable]
+public class LevelInfo {
+
+	public string Level;
+	public float ExpRequired;
+	public float LearningGain;
+	public int CreditGain;
 
 }

@@ -33,6 +33,10 @@ public class UIPartButton : MonoBehaviour {
 	public void OnExit ()
 	{
 		CManager.PartInfo.SetActive(false);
+		for (int i = 0; i < CManager.PartInfo.transform.GetChild(1).childCount; i++)
+		{
+			CManager.PartInfo.transform.GetChild(1).GetChild(i).gameObject.SetActive(false);
+		}
 	}
 
 	public void OnOver ()
@@ -43,27 +47,61 @@ public class UIPartButton : MonoBehaviour {
 		CManager.PartInfo.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = CManager.mDB.rarities[partData.Rarity].color;
 		if (partData.Name.Contains("Cockpit"))
 		{
-
+			Transform tData = CManager.PartInfo.transform.GetChild(1).GetChild(1);
+			tData.gameObject.SetActive(true);
+			tData.transform.GetChild(0).GetComponent<Text>().text = "WORTH: "+partData.Worth.ToString();
+			tData.transform.GetChild(1).GetComponent<Text>().text = "SIZE: "+partData.size;
+			tData.transform.GetChild(2).GetComponent<Text>().text = "DURABILITY: "+partData.MaxDurability.ToString();
 		}
 		else if (partData.Name.Contains("Reactor"))
 		{
-
+			Transform tData = CManager.PartInfo.transform.GetChild(1).GetChild(2);
+			tData.gameObject.SetActive(true);
+			tData.transform.GetChild(0).GetComponent<Text>().text = "WORTH: "+partData.Worth.ToString();
+			tData.transform.GetChild(1).GetComponent<Text>().text = "SIZE: "+partData.size;
+			tData.transform.GetChild(2).GetComponent<Text>().text = "DURABILITY: "+partData.MaxDurability.ToString();
+			tData.transform.GetChild(3).GetComponent<Text>().text = "CAPACITY: "+partData.MaxCapacity.ToString();
+			tData.transform.GetChild(4).GetComponent<Text>().text = "RECHARGE: "+partData.RechargeRate.ToString();
 		}
 		else if (partData.Name.Contains("Shield"))
 		{
-
+			Transform tData = CManager.PartInfo.transform.GetChild(1).GetChild(3);
+			tData.gameObject.SetActive(true);
+			tData.transform.GetChild(0).GetComponent<Text>().text = "WORTH: "+partData.Worth.ToString();
+			tData.transform.GetChild(1).GetComponent<Text>().text = "SIZE: "+partData.size;
+			tData.transform.GetChild(2).GetComponent<Text>().text = "DURABILITY: "+partData.MaxDurability.ToString();
+			tData.transform.GetChild(3).GetComponent<Text>().text = "CAPACITY: "+partData.MaxCapacity.ToString();
+			tData.transform.GetChild(4).GetComponent<Text>().text = "RECHARGE: "+partData.RechargeRate.ToString();
+			tData.transform.GetChild(5).GetComponent<Text>().text = "DRAIN: "+partData.Drain.ToString();
 		}
 		else if (partData.Name.Contains("Thruster"))
 		{
-
+			Transform tData = CManager.PartInfo.transform.GetChild(1).GetChild(4);
+			tData.gameObject.SetActive(true);
+			tData.transform.GetChild(0).GetComponent<Text>().text = "WORTH: "+partData.Worth.ToString();
+			tData.transform.GetChild(1).GetComponent<Text>().text = "SIZE: "+partData.size;
+			tData.transform.GetChild(2).GetComponent<Text>().text = "DURABILITY: "+partData.MaxDurability.ToString();
+			tData.transform.GetChild(3).GetComponent<Text>().text = "THRUST: "+partData.Thrust.ToString();
+			tData.transform.GetChild(4).GetComponent<Text>().text = "TORQUE: "+partData.Torque.ToString();
 		}
 		else if (partData.Name.Contains("Weapon"))
 		{
-
+			Transform tData = CManager.PartInfo.transform.GetChild(1).GetChild(5);
+			tData.gameObject.SetActive(true);
+			tData.transform.GetChild(0).GetComponent<Text>().text = "WORTH: "+partData.Worth.ToString();
+			tData.transform.GetChild(1).GetComponent<Text>().text = "SIZE: "+partData.size;
+			tData.transform.GetChild(2).GetComponent<Text>().text = "DURABILITY: "+partData.MaxDurability.ToString();	
+			tData.transform.GetChild(3).GetComponent<Text>().text = "DAMAGE: "+partData.Damage.ToString();
+			tData.transform.GetChild(4).GetComponent<Text>().text = "FIRERATE: "+partData.FireRate.ToString();
+			tData.transform.GetChild(5).GetComponent<Text>().text = "DRAIN: "+partData.Drain.ToString();
 		}
 		else
 		{
-
+			Transform tData = CManager.PartInfo.transform.GetChild(1).GetChild(0);
+			tData.gameObject.SetActive(true);
+			tData.transform.GetChild(0).GetComponent<Text>().text = "WORTH: "+partData.Worth.ToString();
+			tData.transform.GetChild(1).GetComponent<Text>().text = "SIZE: "+partData.size;
+			tData.transform.GetChild(2).GetComponent<Text>().text = "DURABILITY: "+partData.MaxDurability.ToString();		
 		}
 	}
 

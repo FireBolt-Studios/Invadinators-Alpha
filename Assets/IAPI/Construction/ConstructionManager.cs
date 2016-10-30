@@ -17,10 +17,48 @@ public class ConstructionManager : MonoBehaviour {
 
 	public Transform CurrentTile;
 
+	public InputField nameField;
+
 	public Slider[] ColorSliders;
 	public Text[] ColorValues;
 
 	public GameObject PartInfo;
+
+	public Transform Ship;
+
+	public void SaveShip ()
+	{
+		if (nameField.text == "")
+		{
+			print("NO NAME INPUT");
+			return;
+		}
+
+		Part[] parts = Ship.GetComponentsInChildren<Part>();
+		ShipData newShip = new ShipData();
+		newShip.Name = nameField.text;
+
+		foreach (Part part in parts)
+		{
+			print("SAVED PART: "+part.PartData.Name);
+			newShip.Parts.Add(part.PartData);
+		}
+
+		GManager.PManager.ActiveProfile.Ships.Add(newShip);
+		DataUtility.Save(Application.persistentDataPath+"/Profiles/Profile.pro",GManager.PManager.ActiveProfile);
+	}
+
+	public void LoadShip ()
+	{
+		ShipData shipData = DataUtility.GetShip(nameField.text,GManager.PManager.ActiveProfile);
+		foreach (PartData partData in shipData.Parts)
+		{
+			GameObject part = DataUtility.SpawnPart(partData,mDB,Ship);
+			part.GetComponent<Part>().Ship = Ship.GetComponent<Ship>();
+		}
+		Ship.GetComponent<Ship>().ShipData = shipData;
+		Ship.GetComponent<Ship>().Initialize();
+	}
 
 	public void SetColor ()
 	{
@@ -74,6 +112,39 @@ public class ConstructionManager : MonoBehaviour {
 				count = 0;
 			}
 		}
+	}
+		
+	public void PlacePart (PartData partData,Transform placer)
+	{
+		// Create Gameobjects
+		GameObject newPart = new GameObject(partData.Name,typeof(SpriteRenderer),typeof(BoxCollider2D),typeof(Part));
+		GameObject newDetail = new GameObject("Detail",typeof(SpriteRenderer));
+
+		// Setup Transforms
+		newDetail.transform.parent = newPart.transform;
+		newPart.transform.position = placer.position;
+		newPart.transform.eulerAngles = placer.eulerAngles;
+		newPart.transform.localScale = placer.localScale;
+		newPart.transform.parent = Ship;
+
+		//Setup Sprite Renderers
+		SpriteRenderer Base = newPart.GetComponent<SpriteRenderer>();
+		SpriteRenderer Detail = newDetail.GetComponent<SpriteRenderer>();
+		Base.sprite = placer.GetComponent<SpriteRenderer>().sprite;
+		Base.color = placer.GetComponent<SpriteRenderer>().color;
+		Base.flipX = placer.GetComponent<SpriteRenderer>().flipX;
+		Detail.sprite = placer.GetChild(0).GetComponent<SpriteRenderer>().sprite;
+		Detail.color = placer.GetChild(0).GetComponent<SpriteRenderer>().color;
+		Detail.flipX = placer.GetChild(0).GetComponent<SpriteRenderer>().flipX;
+		Detail.sortingOrder = 1;
+
+		//Setup Part Data
+		PartData copiedData = DataUtility.DeepCopy<PartData>(partData);
+		copiedData.Transform = DataUtility.ConvertTransform(newPart.transform.localPosition,newPart.transform.localEulerAngles);
+		copiedData.Colors[0] = DataUtility.ConvertColor(Base.color);
+		copiedData.Colors[1] = DataUtility.ConvertColor(Detail.color);
+		copiedData.FlipX = Base.flipX;
+		newPart.GetComponent<Part>().PartData = copiedData;
 	}
 
 	public void SpawnPlacer (PartData partData)
