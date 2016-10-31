@@ -15,7 +15,7 @@ namespace IAPI.Game {
 				newInfo.Level = lvl.ToString();
 				progression.levelInfo[lvl] = newInfo;
 
-				float nx = (lvl*((lvl*2)+((lvl*2)+15)))*10;
+				int nx = (lvl*((lvl*2)+((lvl*2)+15)))*10;
 				progression.levelInfo[lvl].ExpRequired = nx;
 				if (lvl > 0 && lvl <= 30)
 				{
@@ -31,7 +31,7 @@ namespace IAPI.Game {
 				}
 				if (lvl > 120 && lvl <= 201)
 				{
-					progression.levelInfo[lvl].LearningGain = 62.5f;
+					progression.levelInfo[lvl].LearningGain = 60;
 				}
 			}
 

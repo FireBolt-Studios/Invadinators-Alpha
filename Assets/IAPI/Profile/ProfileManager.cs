@@ -14,12 +14,20 @@ public class ProfileManager : MonoBehaviour {
 
 	void Start ()
 	{
-		//SetLevelInfo();
+		IAPI.Profile.ProfileUtility.GiveXp(500,this,GManager.mDB);
 	}
 
-	void Update ()
+	public void LevelUp ()
 	{
-		ActiveProfile.XP = 100;
+		ActiveProfile.Level += 1;
+		ActiveProfile.XP = 0;
+		ActiveProfile.LP += GManager.mDB.Progression.levelInfo[ActiveProfile.Level].LearningGain;
+		ActiveProfile.Credits = GManager.mDB.Progression.levelInfo[ActiveProfile.Level].CreditGain;
+		SetLevelInfo();
+	}
+
+	void SetLevelInfo ()
+	{
 		LevelInfo[0].text = "LEVEL: "+ActiveProfile.Level.ToString();
 		LevelInfo[1].text = "RANK: "+ActiveProfile.Rank;
 		LevelInfo[2].text = "CREDIT: "+ActiveProfile.Credits.ToString();
@@ -28,7 +36,7 @@ public class ProfileManager : MonoBehaviour {
 		LevelInfo[5].text = ActiveProfile.Name;
 
 		float percent = (ActiveProfile.XP/GManager.mDB.Progression.levelInfo[ActiveProfile.Level+1].ExpRequired)*100;
-		xpBar.anchorMax = new Vector2(100-percent,10);
+		xpBar.sizeDelta = new Vector2(percent*2.4f,10);
 		print(percent);
 	}
 

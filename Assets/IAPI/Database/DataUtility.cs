@@ -257,6 +257,7 @@ namespace IAPI.Database {
 			newProfileData.Credits = 1000;
 			newProfileData.Level = 1;
 			newProfileData.Rank = "Private";
+			newProfileData.Learning = DeepCopy<Learning>(mDB.Learning);
 			foreach (string partType in mDB.PartTypes)
 			{
 				PartType pType = new PartType();
@@ -314,6 +315,7 @@ public class ProfileData {
 	public int Credits;
 	public int LP;
 	public int XP;
+	public Learning Learning;
 	public List<ShipData> Ships = new List<ShipData>();
 	public List<PartType> Cargo = new List<PartType>();
 	public List<PartData> partTest = new List<PartData>();
@@ -432,8 +434,8 @@ public class Progression {
 public class LevelInfo {
 
 	public string Level;
-	public float ExpRequired;
-	public float LearningGain;
+	public int ExpRequired;
+	public int LearningGain;
 	public int CreditGain;
 
 }

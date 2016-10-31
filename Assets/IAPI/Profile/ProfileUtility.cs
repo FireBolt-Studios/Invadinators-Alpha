@@ -1,18 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Profile.ProfileUtility {
+namespace IAPI.Profile {
 	public class ProfileUtility {
 
-		public static bool CreateLocalProfile (string profileName, ProfileManager pManager)
+		public static void GiveXp (int amount,ProfileManager pManager,MainDatabase mDB)
 		{
-			ProfileData newProfile = new ProfileData ();
-			newProfile.Name = profileName;
-			newProfile.Level = 1;
-			newProfile.Rank = "Private";
-			newProfile.Credits = 1000;
-			pManager.ActiveProfile = newProfile;
-			return true;
+			pManager.ActiveProfile.XP += amount;
+			if (pManager.ActiveProfile.XP >= mDB.Progression.levelInfo[pManager.ActiveProfile.Level+1].ExpRequired)
+			{
+				pManager.LevelUp();
+			}
 		}
 	}
 }
