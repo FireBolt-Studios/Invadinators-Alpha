@@ -36,6 +36,11 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	public void LoadTest ()
+	{
+		SceneManager.LoadScene("Test");
+	}
+
 	void Initialization ()
 	{
 		if (IAPI.Database.DataUtility.CheckDirectories())
@@ -44,7 +49,6 @@ public class GameManager : MonoBehaviour {
 			{
 				print("Profile Found");
 				PManager.ActiveProfile = IAPI.Database.DataUtility.Load<ProfileData>(Application.persistentDataPath+"/Profiles/Profile.pro");
-				//SceneManager.LoadScene("Test");
 			}
 			else
 			{

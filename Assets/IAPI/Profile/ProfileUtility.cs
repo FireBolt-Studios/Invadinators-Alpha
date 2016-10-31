@@ -12,5 +12,10 @@ namespace IAPI.Profile {
 				pManager.LevelUp();
 			}
 		}
+
+		public static void SaveProfile (ProfileData profile)
+		{
+			IAPI.Database.DataUtility.Save(Application.persistentDataPath+"/Profiles/Profile.pro",profile);
+		}
 	}
 }

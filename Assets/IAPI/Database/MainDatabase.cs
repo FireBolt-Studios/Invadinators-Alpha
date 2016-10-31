@@ -15,5 +15,6 @@ public class MainDatabase : MonoBehaviour {
 	public Progression Progression;
 	public Learning Learning;
 
+	public GameObject[] Asteroids;
 }
 

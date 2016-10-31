@@ -19,19 +19,19 @@ namespace IAPI.Game {
 				progression.levelInfo[lvl].ExpRequired = nx;
 				if (lvl > 0 && lvl <= 30)
 				{
-					progression.levelInfo[lvl].LearningGain = 500;
+					progression.levelInfo[lvl].LearningGain = 50;
 				}
 				if (lvl > 30 && lvl <= 70)
 				{
-					progression.levelInfo[lvl].LearningGain = 400;
+					progression.levelInfo[lvl].LearningGain = 40;
 				}
 				if (lvl > 70 && lvl <= 120)
 				{
-					progression.levelInfo[lvl].LearningGain = 200;
+					progression.levelInfo[lvl].LearningGain = 20;
 				}
 				if (lvl > 120 && lvl <= 201)
 				{
-					progression.levelInfo[lvl].LearningGain = 60;
+					progression.levelInfo[lvl].LearningGain = 6;
 				}
 			}
 

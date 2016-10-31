@@ -7,11 +7,31 @@ public class MissionManager : MonoBehaviour {
 	public GameManager GManager;
 	public string shipToLoad;
 
+	public MissionSpawner[] Spawners;
+
+	public float spawnTimer;
+	public float spawnTime;
+
 	void Awake ()
 	{
 		GManager = GameObject.FindObjectOfType<GameManager>();
 		shipToLoad = "G2HAWK";
 		LoadShip();
+		Spawners = GameObject.FindObjectsOfType<MissionSpawner>();
+	}
+
+	void Update ()
+	{
+		if (spawnTimer >= spawnTime)
+		{
+			int random = Random.Range(0,Spawners.Length);
+			Spawners[random].Spawn();
+			spawnTimer = 0;
+		}
+		else
+		{
+			spawnTimer += Time.deltaTime;
+		}
 	}
 
 	public void LoadShip ()

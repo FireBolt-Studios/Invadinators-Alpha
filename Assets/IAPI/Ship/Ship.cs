@@ -19,6 +19,47 @@ public class Ship : MonoBehaviour {
 	public int Thrust;
 	public int Torque;
 
+	void CalculateModifiers ()
+	{
+
+		foreach (PartType pType in PartTypes)
+		{
+			foreach (PartData part in pType.Parts)
+			{
+				part.MaxDurability = Mathf.RoundToInt(part.MaxDurability * (1+(GManager.PManager.ActiveProfile.Learning.StatModifiers[11].TotalMod/100)));
+				part.CurrentDurability = part.MaxDurability;
+			}
+		}
+
+		foreach (PartData Shield in PartTypes[2].Parts)
+		{
+			Shield.MaxCapacity = Mathf.RoundToInt(Shield.MaxCapacity * (1+(GManager.PManager.ActiveProfile.Learning.StatModifiers[3].TotalMod/1000)));
+			Shield.RechargeRate -= GManager.PManager.ActiveProfile.Learning.StatModifiers[4].TotalMod/10000;
+			Shield.Drain = Mathf.RoundToInt(Shield.Drain * (1+(GManager.PManager.ActiveProfile.Learning.StatModifiers[5].TotalMod/1000)));
+		}
+
+		foreach (PartData Reactor in PartTypes[1].Parts)
+		{
+			Reactor.MaxCapacity = Mathf.RoundToInt(Reactor.MaxCapacity * (1+(GManager.PManager.ActiveProfile.Learning.StatModifiers[6].TotalMod/1000)));
+			Reactor.RechargeRate -= GManager.PManager.ActiveProfile.Learning.StatModifiers[7].TotalMod/10000;
+		}
+
+		foreach (PartData Weapon in PartTypes[3].Parts)
+		{
+			Weapon.Damage = Mathf.RoundToInt(Weapon.MaxCapacity * (1+(GManager.PManager.ActiveProfile.Learning.StatModifiers[0].TotalMod/1000)));
+			Weapon.FireRate -= GManager.PManager.ActiveProfile.Learning.StatModifiers[2].TotalMod/10000;
+			Weapon.Drain = Mathf.RoundToInt(Weapon.Drain * (1+(GManager.PManager.ActiveProfile.Learning.StatModifiers[8].TotalMod/1000)));
+		}
+
+		foreach (PartData Thruster in PartTypes[4].Parts)
+		{
+			Thruster.Thrust = Mathf.RoundToInt(Thruster.Thrust * (1+(GManager.PManager.ActiveProfile.Learning.StatModifiers[9].TotalMod/1000)));
+			Thruster.Torque = Mathf.RoundToInt(Thruster.Torque * (1+(GManager.PManager.ActiveProfile.Learning.StatModifiers[10].TotalMod/1000)));
+			Thrust += Thruster.Thrust;
+			Torque += Thruster.Torque;
+		}
+	}
+
 	void ShieldCalculation ()
 	{
 		int shieldCharge = 0;
@@ -36,7 +77,7 @@ public class Ship : MonoBehaviour {
 		{
 			reactorCharge += Reactor.Charge;
 		}
-		ReactorCharge= reactorCharge;
+		ReactorCharge = reactorCharge;
 	}
 
 	void Update ()
@@ -48,9 +89,10 @@ public class Ship : MonoBehaviour {
 		}
 	}
 
+
+
 	public void Initialize ()
 	{
-		print("Init Started");
 		PartTypes.Clear();
 
 		Thrust = 0;
@@ -84,8 +126,6 @@ public class Ship : MonoBehaviour {
 			if (partData.Type == "Thruster")
 			{
 				PartTypes[4].Parts.Add(partData);
-				Thrust += partData.Thrust;
-				Torque += partData.Torque;
 			}
 			if (partData.Type == "Armor")
 			{
@@ -114,6 +154,8 @@ public class Ship : MonoBehaviour {
 			}
 		}
 		IAPI.Game.GameUtility.CenterParts(transform);
+
+		CalculateModifiers();
 		Active = true;
 	}
 }

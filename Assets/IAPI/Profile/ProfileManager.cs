@@ -12,9 +12,44 @@ public class ProfileManager : MonoBehaviour {
 	public Text[] LevelInfo;
 	public RectTransform xpBar;
 
+	public Learning newLearning;
+	public int pointsUsed;
+	public Text PointsUsed;
+	public UIStatModifier[] StatModifiers;
+
 	void Start ()
 	{
 		IAPI.Profile.ProfileUtility.GiveXp(500,this,GManager.mDB);
+		foreach(UIStatModifier mod in StatModifiers)
+		{
+			mod.SetValues(ActiveProfile.Learning);
+			mod.minusButton.interactable = false;
+		}
+		PointsUsed.text = "POINTS SPENT: "+pointsUsed.ToString();
+		SetLevelInfo();
+	}
+
+
+	public void CommitValues ()
+	{
+		if (pointsUsed > 0)
+		{
+			if (pointsUsed <= ActiveProfile.LP)
+			{
+				ActiveProfile.Learning = newLearning;
+				ActiveProfile.LP -= pointsUsed;
+				pointsUsed = 0;
+				newLearning = null;
+				PointsUsed.text = "POINTS SPENT: "+pointsUsed.ToString();
+				foreach(UIStatModifier mod in StatModifiers)
+				{
+					mod.SetValues(ActiveProfile.Learning);
+					mod.minusButton.interactable = false;
+				}
+				IAPI.Profile.ProfileUtility.SaveProfile(ActiveProfile);
+				SetLevelInfo();
+			}
+		}
 	}
 
 	public void LevelUp ()
@@ -26,7 +61,7 @@ public class ProfileManager : MonoBehaviour {
 		SetLevelInfo();
 	}
 
-	void SetLevelInfo ()
+	public void SetLevelInfo ()
 	{
 		LevelInfo[0].text = "LEVEL: "+ActiveProfile.Level.ToString();
 		LevelInfo[1].text = "RANK: "+ActiveProfile.Rank;
@@ -37,7 +72,6 @@ public class ProfileManager : MonoBehaviour {
 
 		float percent = (ActiveProfile.XP/GManager.mDB.Progression.levelInfo[ActiveProfile.Level+1].ExpRequired)*100;
 		xpBar.sizeDelta = new Vector2(percent*2.4f,10);
-		print(percent);
 	}
 
 }

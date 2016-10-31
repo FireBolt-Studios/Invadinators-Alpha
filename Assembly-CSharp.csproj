@@ -66,6 +66,7 @@
      <Compile Include="Assets\IAPI\User Interface\UIPartButton.cs" />
      <Compile Include="Assets\IAPI\User Interface\UIPartCard.cs" />
      <Compile Include="Assets\IAPI\User Interface\UIPartTypeButton.cs" />
+     <Compile Include="Assets\IAPI\User Interface\UIStatModifier.cs" />
      <Compile Include="Assets\IAPI\User Interface\UIUtility.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
