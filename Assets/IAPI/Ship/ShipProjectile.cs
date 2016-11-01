@@ -4,6 +4,7 @@ using System.Collections;
 public class ShipProjectile : MonoBehaviour {
 
 	public float speed;
+	public int damage;
 	public bool rotate;
 	public float rotateSpeed;
 

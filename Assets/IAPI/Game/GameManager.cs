@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using IAPI.Database;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
@@ -14,25 +15,22 @@ public class GameManager : MonoBehaviour {
 		Initialization();
 	}
 		
-
 	public void FillCargo ()
 	{
-		foreach (PartType pType in PManager.ActiveProfile.Cargo)
+		PManager.ActiveProfile.Cargo[0].Parts.Add(GenerateUtility.GenerateCockpitPart(1,1,2,mDB));
+		PManager.ActiveProfile.Cargo[1].Parts.Add(GenerateUtility.GenerateReactorPart(1,1,1,mDB));
+		PManager.ActiveProfile.Cargo[2].Parts.Add(GenerateUtility.GenerateShieldPart(1,1,1,mDB));
+		PManager.ActiveProfile.Cargo[3].Parts.Add(GenerateUtility.GenerateWeaponPart(1,1,1,mDB));
+		PManager.ActiveProfile.Cargo[4].Parts.Add(GenerateUtility.GenerateThrusterPart(1,1,2,mDB));
+
+		for (int i = 0; i < 20; i++)
 		{
-			for (int t = 0; t <= 1; t++)
-			{
-				for (int r = 0; r <= 2; r++)
-				{
-					for (int s = 1; s <= 2; s++)
-					{
-						PartData newPartData = IAPI.Database.GenerateUtility.GeneratePart(pType.TypeName,r,t,s,mDB);
-						if (newPartData != null)
-						{
-							pType.Parts.Add(newPartData);
-						}
-					}
-				}
-			}
+			PManager.ActiveProfile.Cargo[5].Parts.Add(GenerateUtility.GenerateArmorPart(1,1,2,mDB));
+		}
+
+		for (int i = 0; i < 20; i++)
+		{
+			PManager.ActiveProfile.Cargo[5].Parts.Add(GenerateUtility.GenerateArmorPart(1,1,1,mDB));
 		}
 	}
 

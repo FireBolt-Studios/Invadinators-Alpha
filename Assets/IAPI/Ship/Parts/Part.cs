@@ -16,6 +16,8 @@ public class Part : MonoBehaviour {
 	{
 		if (Active)
 		{
+			CheckCollisions();
+
 			if (PartData.Type == "Shield" || PartData.Type == "Reactor")
 			{
 				if (timer >= PartData.RechargeRate)
@@ -58,6 +60,28 @@ public class Part : MonoBehaviour {
 		}
 	}
 		
+	void CheckCollisions ()
+	{
+		BoxCollider2D col = gameObject.GetComponent<BoxCollider2D>();
+		Collider2D[] overlap = Physics2D.OverlapAreaAll(col.bounds.min,col.bounds.max,Physics.DefaultRaycastLayers,0,5);
+
+		if (overlap.Length > 1)
+		{
+			foreach (Collider2D c2D in overlap)
+			{
+				if (c2D.tag == "Enemy")
+				{
+					DamagePart(25);
+					Destroy(c2D.gameObject);
+				}
+			}
+		}
+		else
+		{
+		
+		}
+	}
+
 	void DoAction ()
 	{
 		if (PartData.Type == "Reactor")
@@ -89,7 +113,7 @@ public class Part : MonoBehaviour {
 		}
 		if (PartData.Type == "Weapon")
 		{
-			IAPI.ShipUtility.FireProjectile(transform.GetChild(1),Prefab);
+			IAPI.ShipUtility.FireProjectile(transform.GetChild(1),Prefab,PartData.Damage);
 		}
 	}
 

@@ -11,6 +11,7 @@ public class MainDatabase : MonoBehaviour {
 	public List<SpriteData> Sprites = new List<SpriteData>();
 	public Tier[] tiers;
 	public Rarity[] rarities;
+	public StatAdjectives[] statAdjectives;
 	public GameObject[] Projectiles;
 	public Progression Progression;
 	public Learning Learning;

@@ -267,11 +267,25 @@ namespace IAPI.Database {
 			return newProfileData;
 		}
 
-		public static GameObject SpawnPart (PartData partData,MainDatabase mDB,Transform ship)
+		public static GameObject SpawnPart (PartData partData,MainDatabase mDB,Transform ship,bool displayPart)
 		{
 			// Create Gameobjects
-			GameObject newPart = new GameObject(partData.Name,typeof(SpriteRenderer),typeof(BoxCollider2D),typeof(Part));
+			GameObject newPart = new GameObject(partData.Name,typeof(SpriteRenderer));
 			GameObject newDetail = new GameObject("Detail",typeof(SpriteRenderer));
+
+			if (!displayPart)
+			{
+				newPart.AddComponent<BoxCollider2D>();
+				newPart.AddComponent<Part>();
+
+
+				//Setup Part Data
+				newPart.GetComponent<Part>().PartData = partData;
+			}
+			else
+			{
+				newPart.AddComponent<PartDisplay>();
+			}
 
 			// Setup Transforms
 			newDetail.transform.parent = newPart.transform;
@@ -299,8 +313,6 @@ namespace IAPI.Database {
 			Detail.flipX = partData.FlipX;
 			Detail.sortingOrder = 1;
 
-			//Setup Part Data
-			newPart.GetComponent<Part>().PartData = partData;
 			return newPart;
 		}
 	}

@@ -4,9 +4,10 @@ using System.Collections;
 namespace IAPI {
 	public class ShipUtility : MonoBehaviour {
 
-		public static void FireProjectile (Transform origin,GameObject projectile)
+		public static void FireProjectile (Transform origin,GameObject projectile,int damage)
 		{
-			Instantiate(projectile,origin.position,origin.rotation);
+			ShipProjectile newProjectile = Instantiate(projectile,origin.position,origin.rotation) as ShipProjectile;
+			newProjectile.damage = damage;
 		}
 
 		public static PartData GetReactorCharge (Ship ship)

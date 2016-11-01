@@ -1,8 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace IAPI.Game {
 	public class GameUtility {
+
+		public static float GetHighestFloat (float[] floats)
+		{
+			List<float> newFloats = floats.ToList();
+			newFloats.Sort();
+			return newFloats[newFloats.Count-1];
+		}
 
 		public static Progression BuildProgression (MainDatabase mDB)
 		{

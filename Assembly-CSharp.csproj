@@ -52,6 +52,7 @@
      <Compile Include="Assets\IAPI\Database\DataUtility.cs" />
      <Compile Include="Assets\IAPI\Database\GenerateUtility.cs" />
      <Compile Include="Assets\IAPI\Database\MainDatabase.cs" />
+     <Compile Include="Assets\IAPI\Enemy\Asteroid.cs" />
      <Compile Include="Assets\IAPI\Game\GameManager.cs" />
      <Compile Include="Assets\IAPI\Game\GameUtility.cs" />
      <Compile Include="Assets\IAPI\Mission\MissionManager.cs" />
@@ -59,6 +60,7 @@
      <Compile Include="Assets\IAPI\Profile\ProfileManager.cs" />
      <Compile Include="Assets\IAPI\Profile\ProfileUtility.cs" />
      <Compile Include="Assets\IAPI\Ship\Parts\Part.cs" />
+     <Compile Include="Assets\IAPI\Ship\Parts\PartDisplay.cs" />
      <Compile Include="Assets\IAPI\Ship\Ship.cs" />
      <Compile Include="Assets\IAPI\Ship\ShipControl.cs" />
      <Compile Include="Assets\IAPI\Ship\ShipProjectile.cs" />

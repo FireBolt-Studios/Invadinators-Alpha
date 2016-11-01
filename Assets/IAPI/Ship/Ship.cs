@@ -131,26 +131,28 @@ public class Ship : MonoBehaviour {
 			{
 				PartTypes[5].Parts.Add(partData);
 			}
-			Part[] parts = GetComponentsInChildren<Part>();
-			foreach (Part part in parts)
-			{
-				part.Active = true;
-				if (part.PartData.Type == "Weapon")
-				{
-					GameObject pRef = new GameObject("Ref");
-					pRef.transform.parent = part.transform;
-					if (part.PartData.FlipX)
-					{
-						pRef.transform.localPosition = new Vector3(0.388f,-1f);
-					}
-					else
-					{					
-						pRef.transform.localPosition = new Vector3(-0.388f,-1f);
-					}
+		}
 
-					pRef.transform.localRotation = transform.rotation;
-					Weapons.Add(part);
+		Part[] parts = GetComponentsInChildren<Part>();
+		foreach (Part part in parts)
+		{
+			part.Active = true;
+			print(part.PartData.Type == "Weapon");
+			if (part.PartData.Type == "Weapon")
+			{
+				GameObject pRef = new GameObject("Ref");
+				pRef.transform.parent = part.transform;
+				if (part.PartData.FlipX)
+				{
+					pRef.transform.localPosition = new Vector3(0.388f,-1f);
 				}
+				else
+				{					
+					pRef.transform.localPosition = new Vector3(-0.388f,-1f);
+				}
+
+				pRef.transform.localRotation = transform.rotation;
+				Weapons.Add(part);
 			}
 		}
 		IAPI.Game.GameUtility.CenterParts(transform);

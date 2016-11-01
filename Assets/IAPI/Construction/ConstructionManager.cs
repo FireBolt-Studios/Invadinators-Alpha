@@ -53,7 +53,7 @@ public class ConstructionManager : MonoBehaviour {
 		ShipData shipData = DataUtility.GetShip(nameField.text,GManager.PManager.ActiveProfile);
 		foreach (PartData partData in shipData.Parts)
 		{
-			GameObject part = DataUtility.SpawnPart(partData,mDB,Ship);
+			GameObject part = DataUtility.SpawnPart(partData,mDB,Ship,false);
 			part.GetComponent<Part>().Ship = Ship.GetComponent<Ship>();
 		}
 		Ship.GetComponent<Ship>().ShipData = shipData;
