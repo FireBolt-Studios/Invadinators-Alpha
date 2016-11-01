@@ -5,7 +5,7 @@ using System.Collections;
 public class AddAccount : MonoBehaviour {
 
 	private string secretKey = "mySecretKey"; // Edit this value and make sure it's the same as the one stored on the server
-	public string addScoreURL = "31.170.160.103/public_html/AddAccount.php?"; //be sure to add a ? to your url
+	public string addScoreURL = "http://invadinators.netai.net/AddAccount.php?"; //be sure to add a ? to your url
 	//public string highscoreURL = "http://localhost/unity_test/display.php";
 
 	public void AddNewAccount ()
@@ -16,15 +16,20 @@ public class AddAccount : MonoBehaviour {
 	// remember to use StartCoroutine when calling this function!
 	IEnumerator PostScores(string name, string password, string email)
 	{
+		print("Attempting to add to table");
 		//This connects to a server side php script that will add the name and score to a MySQL DB.
 		// Supply it with a string representing the players name and the players score.
 		string hash = DataUtility.Md5Sum(name + password + email + secretKey);
+		print(hash);
 
-		string post_url = addScoreURL + "name=" + WWW.EscapeURL("31.170.160.103/public_html/AddAccount.php") + "&password=" + password + "@email=" + email + "&hash=" + hash;
+		string post_url = addScoreURL + "name=" + WWW.EscapeURL(name) + "&password=" + password + "&email=" + email + "&hash=" + hash;
+		print(post_url);
 
 		// Post the URL to the site and create a download object to get the result.
 		WWW hs_post = new WWW(post_url);
 		yield return hs_post; // Wait until the download is done
+
+		print(hs_post.progress);
 
 		if (hs_post.error != null)
 		{
