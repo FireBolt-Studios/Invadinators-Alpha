@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour {
 		PManager.ActiveProfile.Cargo[0].Parts.Add(GenerateUtility.GenerateCockpitPart(1,1,2,mDB));
 		PManager.ActiveProfile.Cargo[1].Parts.Add(GenerateUtility.GenerateReactorPart(1,1,1,mDB));
 		PManager.ActiveProfile.Cargo[2].Parts.Add(GenerateUtility.GenerateShieldPart(1,1,1,mDB));
-		PManager.ActiveProfile.Cargo[3].Parts.Add(GenerateUtility.GenerateWeaponPart(1,1,1,mDB));
+		PManager.ActiveProfile.Cargo[3].Parts.Add(GenerateUtility.GenerateWeaponPart(1,1,2,mDB));
 		PManager.ActiveProfile.Cargo[4].Parts.Add(GenerateUtility.GenerateThrusterPart(1,1,2,mDB));
 
 		for (int i = 0; i < 20; i++)
